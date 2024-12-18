@@ -1,0 +1,19 @@
+<PropertyGroup name='Group 1' id='5a99231d-9541-4e39-8b19-fbda45bde394' description='Description for Group 1'>,,
+<Category>,<PropertyLookup>,<Value>
+{FileGlobals},Query_operation {String},LA020
+{FileGlobals},Query_param {String},S/N LATM motor
+{FileGlobals},FITs_Model {String},LATM PV
+{FileGlobals},FITs_Operation {String},LA050
+{FileGlobals},PSU_Current {String},3
+{FileGlobals},PSU_Voltage {String},12
+{FileGlobals},Chanel {String},1
+{FileGlobals},V70_VISA_Source {String},COM5
+{FileGlobals},Hydra_VISA_Source {String},COM6
+{FileGlobals},PSU_VISA_Source {String},PSU
+{FileGlobals},CalibrationPath {String},C:\TesterInfo\Projects\Station\031212-LATM Test Station\Configuration\Product Configuration\Calibration_DT-FAB-LATM02_2022-11-16.csv
+{FileGlobals},ReportPath {String},C:\TesterInfo\Projects\Reports\60-0354-01102312C2003730\60-0354-01102312C2003730_2023-12-19T111655_Report
+{FileGlobals},MesName {String},Fabrinet FITS
+{FileGlobals},Diff_Mirror_USL {Number},4
+{FileGlobals},Diff_Mirror_LSL {Number},-4
+{FileGlobals},Polarity_Spec {Number},1
+<PropertyGroup>,,
