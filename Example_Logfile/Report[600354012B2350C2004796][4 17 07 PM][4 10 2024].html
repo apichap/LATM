@@ -1,0 +1,552 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"><html>
+<head> <meta http-equiv="content-type" content="text/html; charset=iso-8859-1"><meta http-equiv="X-UA-Compatible" content="IE=edge">
+ <title>Report</title>
+<style type="text/css">
+div{left:40px;position:relative;}
+table {border:1px solid;width:70%;}
+table.hdr {border:none;width:70%;}
+td {border:1px solid;}
+td.hdr_name {border:none;white-space:nowrap;}
+td.hdr_value {border:none;}
+td.value {width:37%; font-size:82%; vertical-align:top;}
+td.label {font-size:82%; vertical-align:top;} 
+td.separator {border-style:none; height:1px;}
+</style>
+<link rel="stylesheet" href="file:///C:\Program Files\National Instruments\TestStand 2020\Components/Models/TestStandModels/GraphControl/TSGraphStyle.css" >
+<script defer type="text/javascript" src="file:///C:\Program Files\National Instruments\TestStand 2020\Components/Models/TestStandModels/GraphControl/node_modules/jquery/dist/jquery.min.js" ></script>
+<script defer type="text/javascript" src="file:///C:\Program Files\National Instruments\TestStand 2020\Components/Models/TestStandModels/GraphControl/node_modules/engineering-flot/lib/jquery.event.drag.js" ></script>
+<script defer type="text/javascript" src="file:///C:\Program Files\National Instruments\TestStand 2020\Components/Models/TestStandModels/GraphControl/node_modules/engineering-flot/lib/jquery.mousewheel.js" ></script>
+<script defer type="text/javascript" src="file:///C:\Program Files\National Instruments\TestStand 2020\Components/Models/TestStandModels/GraphControl/node_modules/engineering-flot/dist/es5/jquery.flot.js" ></script>
+<script defer type="text/javascript" src="file:///C:\Program Files\National Instruments\TestStand 2020\Components/Models/TestStandModels/GraphControl/node_modules/flot-cursors-plugin/dist/es5/jquery.flot.cursors.js" ></script>
+<script defer type="text/javascript" src="file:///C:\Program Files\National Instruments\TestStand 2020\Components/Models/TestStandModels/GraphControl/node_modules/ni-data-types/dist/es5-minified/ni-data-types.min.js" ></script>
+<script defer type="text/javascript" src="file:///C:\Program Files\National Instruments\TestStand 2020\Components/Models/TestStandModels/GraphControl/node_modules/flot-charting-plugin/dist/es5/jquery.flot.charting.js" ></script>
+<script defer type="text/javascript" src="file:///C:\Program Files\National Instruments\TestStand 2020\Components/Models/TestStandModels/GraphControl/node_modules/flot-intensitygraph-plugin/jquery.flot.intensitygraph.js" ></script>
+<script defer type="text/javascript" src="file:///C:\Program Files\National Instruments\TestStand 2020\Components/Models/TestStandModels/GraphControl/node_modules/three/build/three.min.js" ></script>
+<script defer type="text/javascript" src="file:///C:\Program Files\National Instruments\TestStand 2020\Components/Models/TestStandModels/GraphControl/node_modules/flot-glplotter-plugin/jquery.flot.glplotter.js" ></script>
+<script defer type="text/javascript" src="file:///C:\Program Files\National Instruments\TestStand 2020\Components/Models/TestStandModels/GraphControl/node_modules/webcomponents-lite/webcomponents-lite.js" ></script>
+<script defer type="text/javascript" src="file:///C:\Program Files\National Instruments\TestStand 2020\Components/Models/TestStandModels/GraphControl/node_modules/@jqwidgets/jqx-element/source-minified/jqxelement-polyfills.js" ></script>
+<script defer type="text/javascript" src="file:///C:\Program Files\National Instruments\TestStand 2020\Components/Models/TestStandModels/GraphControl/node_modules/@jqwidgets/jqx-element/source-minified/jqxelement.js" ></script>
+<script defer type="text/javascript" src="file:///C:\Program Files\National Instruments\TestStand 2020\Components/Models/TestStandModels/GraphControl/node_modules/ni-webcharts/dist/es5-minified/element.min.js" ></script>
+<script defer type="text/javascript" src="file:///C:\Program Files\National Instruments\TestStand 2020\Components/Models/TestStandModels/GraphControl/node_modules/ni-webcharts/dist/es5-minified/webcharts.min.js" ></script>
+<script defer type="text/javascript" src="file:///C:\Program Files\National Instruments\TestStand 2020\Components/Models/TestStandModels/GraphControl/node_modules/ni-webcharts-legends/dist/es5-minified/webcharts-legends.min.js" ></script>
+<script defer type="text/javascript" src="file:///C:\Program Files\National Instruments\TestStand 2020\Components/Models/TestStandModels/GraphControl/node_modules/ni-webcharts/dist/es5-minified/element_registration.min.js" ></script>
+<script defer type="text/javascript" src="file:///C:\Program Files\National Instruments\TestStand 2020\Components/Models/TestStandModels/GraphControl/GraphDataLayout.js" ></script>
+
+<script type="text/javascript">
+        window.i18nPath = window.i18nPath || '../'; //relative to the user_app.html file
+        window.i18nFiles = window.i18nFiles || [];
+        window.i18nFiles.push('node_modules/ni-webcharts/messages/Webcharts');
+</script>
+<style type="text/css">
+        ni-cartesian-graph {
+            display: inline-block;
+            width: 800px;
+            height: 300px;
+            min-height: 50px;
+            color: #000000;
+            fill: #0000E0;
+        }
+
+        ni-cartesian-graph text {
+            stroke: none;
+            stroke-width: 1px;
+            font-size: 12px;
+            font-family: sans-serif;
+            fill: #222266;
+        }
+
+        ni-cartesian-graph .flot-x-axis text,
+        ni-cartesian-graph .flot-y-axis text,
+        .snapshot .flot-x-axis text,
+        .snapshot .flot-y-axis text {
+            margin-left: 5px;
+            margin-right: 5px;
+            fill: #000000;
+        }
+
+        ni-cartesian-graph ni-grid-div {
+            border-style: none;
+            border-width: 0px 0px 0px 0px;
+            border-color: #000000;
+            background-color: white;
+            color: #000000;
+        }
+
+        ni-cartesian-graph div {
+            left: 0px;
+            position: relative;
+        }
+    </style>
+</head>
+<body style="font-family:verdana;">
+<a name="-1-2024-4-10-16-17-7-827"></a><h3>UUT Report</h3>
+<table class='hdr'><tbody>
+<tr><td class='hdr_name'><b>Station ID: </b></td><td class='hdr_value'><b>DT-FAB-LATM02</b></td></tr>
+<tr><td class='hdr_name'><b>Serial Number: </b></td><td class='hdr_value'><b>600354012B2350C2004796</b></td></tr>
+<tr><td class='hdr_name'><b>Date: </b></td><td class='hdr_value'><b>Wednesday, April 10, 2024</b></td></tr>
+<tr><td class='hdr_name'><b>Time: </b></td><td class='hdr_value'><b>4:17:07 PM</b></td></tr>
+<tr><td class='hdr_name'><b>Operator: </b></td><td class='hdr_value'><b>Administrator</b></td></tr>
+<tr><td class='hdr_name'><b>Execution Time: </b></td><td class='hdr_value'><b>38.0513012 seconds</b></td></tr>
+<tr><td class='hdr_name'><b>Number of Results: </b></td><td class='hdr_value'><b>52</b></td></tr>
+<tr><td class='hdr_name'><b>UUT Result: </b></td><td class='hdr_value'><b><span style="color:#008000;">Passed</span></b></td></tr>
+</tbody></table><br><hr style="color:#8000CC;background-color:#8000CC;border-width:0;width:50%;height:3px;text-align:left;margin-left:0;">
+<div>
+<h5 style="white-space:nowrap;">Begin Sequence: MainSequence
+<br>(C:\Auto_LATM_tester\MasterSequence.seq)<br></h5>
+<table style="border-color:#000000;"><tbody>
+<tr><td colspan='2' style="border-color:#000000;background-color:#FF8000;">Setup</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Status:                   </td>
+<td class='value' style="border-color:#000000;background-color:#00FF00;">Passed</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Module Time:              </td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;">4.4154607</td></tr>
+</tbody></table><br>
+<div>
+<h5 style="white-space:nowrap;">Begin Sequence: Setup
+<br>(C:\Auto_LATM_tester\MasterSequence.seq)<br></h5>
+<table style="border-color:#000000;"><tbody>
+<tr><td colspan='2' style="border-color:#000000;background-color:#00C4C4;">FITs_Handshake</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Status:                   </td>
+<td class='value' style="border-color:#000000;background-color:#FFFF00;">Skipped</td></tr>
+<tr><td class='separator' style="background-color:#000000;" colspan = '2'></td></tr>
+<tr><td colspan='2' style="border-color:#000000;background-color:#00C4C4;">PSU_Protection</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Status:                   </td>
+<td class='value' style="border-color:#000000;background-color:#00FFCC;">Done</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Module Time:              </td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;">0.0107193</td></tr>
+<tr><td class='separator' style="background-color:#000000;" colspan = '2'></td></tr>
+<tr><td colspan='2' style="border-color:#000000;background-color:#00C4C4;">PSU_Set_Voltage</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Status:                   </td>
+<td class='value' style="border-color:#000000;background-color:#00FFCC;">Done</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Module Time:              </td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;">0.0015614</td></tr>
+<tr><td class='separator' style="background-color:#000000;" colspan = '2'></td></tr>
+<tr><td colspan='2' style="border-color:#000000;background-color:#00C4C4;">PSU_Set_Current</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Status:                   </td>
+<td class='value' style="border-color:#000000;background-color:#00FFCC;">Done</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Module Time:              </td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;">0.008331</td></tr>
+<tr><td class='separator' style="background-color:#000000;" colspan = '2'></td></tr>
+<tr><td colspan='2' style="border-color:#000000;background-color:#00C4C4;">PSU_ON</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Status:                   </td>
+<td class='value' style="border-color:#000000;background-color:#00FFCC;">Done</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Module Time:              </td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;">0.0037395</td></tr>
+<tr><td class='separator' style="background-color:#000000;" colspan = '2'></td></tr>
+<tr><td colspan='2' style="border-color:#000000;background-color:#00C4C4;">Wait</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Status:                   </td>
+<td class='value' style="border-color:#000000;background-color:#00FFCC;">Done</td></tr>
+<tr><td class='separator' style="background-color:#000000;" colspan = '2'></td></tr>
+<tr><td colspan='2' style="border-color:#000000;background-color:#00C4C4;">PSU_Measure_Voltage</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Status:                   </td>
+<td class='value' style="border-color:#000000;background-color:#00FF00;">Passed</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Measurement:</td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;"><span style='white-space:nowrap;'>11.99288</span></td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Units:</td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;">volt</td></tr>
+<tr><td class='label' colspan='2' style="border-color:#000000;background-color:#FFFFFF;">Limits:</td>
+</tr>
+
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">&nbsp;&nbsp;&nbsp;Low:</td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;"><span style='white-space:nowrap;'>11.8</span></td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">&nbsp;&nbsp;&nbsp;High:</td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;"><span style='white-space:nowrap;'>12.2</span></td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Comparison Type:</td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;">GELE (>= <=)</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Dialog Response Text [Out]:</td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;"><span style='white-space:nowrap;'>11.99288</span></td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Module Time:              </td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;">0.2114232</td></tr>
+<tr><td class='separator' style="background-color:#000000;" colspan = '2'></td></tr>
+<tr><td colspan='2' style="border-color:#000000;background-color:#00C4C4;">PSU_Measure_Current</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Status:                   </td>
+<td class='value' style="border-color:#000000;background-color:#00FF00;">Passed</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Measurement:</td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;"><span style='white-space:nowrap;'>0.446133</span></td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Units:</td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;">ampere</td></tr>
+<tr><td class='label' colspan='2' style="border-color:#000000;background-color:#FFFFFF;">Limits:</td>
+</tr>
+
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">&nbsp;&nbsp;&nbsp;Low:</td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;"><span style='white-space:nowrap;'>0.2</span></td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">&nbsp;&nbsp;&nbsp;High:</td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;"><span style='white-space:nowrap;'>0.6</span></td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Comparison Type:</td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;">GELE (>= <=)</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Dialog Response Text [Out]:</td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;"><span style='white-space:nowrap;'>0.446133</span></td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Module Time:              </td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;">0.2110418</td></tr>
+<tr><td class='separator' style="background-color:#000000;" colspan = '2'></td></tr>
+<tr><td colspan='2' style="border-color:#000000;background-color:#00C4C4;">StartTime</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Status:                   </td>
+<td class='value' style="border-color:#000000;background-color:#00FF00;">Passed</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Module Time:              </td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;">0.0185925</td></tr>
+</tbody></table><br>
+<div>
+<h5 style="white-space:nowrap;">Begin Sequence: StartTime
+<br>(C:\Auto_LATM_tester\MasterSequence.seq)<br></h5>
+<table style="border-color:#000000;"><tbody>
+<tr><td colspan='2' style="border-color:#000000;background-color:#FF8000;">GetTime</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Status:                   </td>
+<td class='value' style="border-color:#000000;background-color:#00FFCC;">Done</td></tr>
+<tr><td class='separator' style="background-color:#000000;" colspan = '2'></td></tr>
+<tr><td colspan='2' style="border-color:#000000;background-color:#FF8000;">GetDate</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Status:                   </td>
+<td class='value' style="border-color:#000000;background-color:#00FFCC;">Done</td></tr>
+<tr><td class='separator' style="background-color:#000000;" colspan = '2'></td></tr>
+<tr><td colspan='2' style="border-color:#000000;background-color:#00C4C4;">FormatDate&amp;Time_Start</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Status:                   </td>
+<td class='value' style="border-color:#000000;background-color:#00FFCC;">Done</td></tr>
+</tbody></table><br>
+<h5 style="white-space:nowrap;">End Sequence: StartTime</h5>
+</div>
+<table style="border-color:#000000;"><tbody>
+<tr><td colspan='2' style="border-color:#000000;background-color:#00C4C4;">Hydra_Scan_Disable</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Status:                   </td>
+<td class='value' style="border-color:#000000;background-color:#00FFCC;">Done</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Dialog Response Text [Out]:</td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;">scan&nbsp;disable<br>spline&nbsp;transmission&nbsp;to&nbsp;v70&nbsp;DISABLED<br>H--></td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Module Time:              </td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;">0.8946886</td></tr>
+</tbody></table><br>
+<h5 style="white-space:nowrap;">End Sequence: Setup</h5>
+</div>
+<table style="border-color:#000000;"><tbody>
+<tr><td colspan='2' style="border-color:#000000;background-color:#00C4C4;">Motor performance</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Status:                   </td>
+<td class='value' style="border-color:#000000;background-color:#00FF00;">Passed</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Module Time:              </td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;">12.5902448</td></tr>
+</tbody></table><br>
+<div>
+<h5 style="white-space:nowrap;">Begin Sequence: Motor performance
+<br>(C:\Auto_LATM_tester\MasterSequence.seq)<br></h5>
+<table style="border-color:#000000;"><tbody>
+<tr><td colspan='2' style="border-color:#000000;background-color:#00C4C4;">V70_Inspection_Moving_Motor</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Status:                   </td>
+<td class='value' style="border-color:#000000;background-color:#00FFCC;">Done</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">V70 Write [In]:</td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;">el&nbsp;scale&nbsp;1</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Dialog Response Text [Out]:</td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;">el&nbsp;scale&nbsp;1<br>Variable&nbsp;Offset,&nbsp;fixed&nbsp;LED&nbsp;current&nbsp;method,&nbsp;Not&nbsp;used.<br>&nbsp;&nbsp;&nbsp;&nbsp;El&nbsp;scale&nbsp;factor&nbsp;=&nbsp;1.000000<br>&nbsp;&nbsp;&nbsp;&nbsp;EL&nbsp;offset&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;0.000&nbsp;deg&nbsp;(raw&nbsp;0)<br>&nbsp;&nbsp;&nbsp;&nbsp;LED&nbsp;cur&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;8.000&nbsp;mA<br>Variable&nbsp;LED&nbsp;current,&nbsp;fixed&nbsp;offset&nbsp;method,&nbsp;***&nbsp;Active&nbsp;***<br>&nbsp;&nbsp;&nbsp;&nbsp;El&nbsp;scale&nbsp;factor&nbsp;&nbsp;=&nbsp;1.000000<br>&nbsp;&nbsp;&nbsp;&nbsp;Elevation&nbsp;offset&nbsp;=&nbsp;0.000&nbsp;deg&nbsp;(raw&nbsp;0)<br>&nbsp;&nbsp;&nbsp;&nbsp;Detector&nbsp;current&nbsp;=&nbsp;300.000&nbsp;uA&nbsp;(Desired&nbsp;value)<br>&nbsp;&nbsp;&nbsp;&nbsp;Offset&nbsp;current&nbsp;&nbsp;&nbsp;=&nbsp;196.896&nbsp;uA&nbsp;(from&nbsp;DAC1&nbsp;through&nbsp;8.2k)<br>&nbsp;&nbsp;&nbsp;&nbsp;LED&nbsp;current&nbsp;now&nbsp;&nbsp;=&nbsp;14.228&nbsp;mA<br>&nbsp;&nbsp;&nbsp;&nbsp;Det&nbsp;current&nbsp;now&nbsp;&nbsp;=&nbsp;250.720&nbsp;uA<br>&nbsp;&nbsp;&nbsp;&nbsp;Ratio&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;0.035&nbsp;(normal&nbsp;0.042)<br>S--></td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Module Time:              </td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;">1.3666019</td></tr>
+<tr><td class='separator' style="background-color:#000000;" colspan = '2'></td></tr>
+<tr><td colspan='2' style="border-color:#000000;background-color:#00C4C4;">V70_Inspection_Moving_Motor</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Status:                   </td>
+<td class='value' style="border-color:#000000;background-color:#00FFCC;">Done</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">V70 Write [In]:</td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;">el&nbsp;offset&nbsp;0</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Dialog Response Text [Out]:</td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;">el&nbsp;offset&nbsp;0<br>Variable&nbsp;Offset,&nbsp;fixed&nbsp;LED&nbsp;current&nbsp;method,&nbsp;Not&nbsp;used.<br>&nbsp;&nbsp;&nbsp;&nbsp;El&nbsp;scale&nbsp;factor&nbsp;=&nbsp;1.000000<br>&nbsp;&nbsp;&nbsp;&nbsp;EL&nbsp;offset&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;0.000&nbsp;deg&nbsp;(raw&nbsp;0)<br>&nbsp;&nbsp;&nbsp;&nbsp;LED&nbsp;cur&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;8.000&nbsp;mA<br>Variable&nbsp;LED&nbsp;current,&nbsp;fixed&nbsp;offset&nbsp;method,&nbsp;***&nbsp;Active&nbsp;***<br>&nbsp;&nbsp;&nbsp;&nbsp;El&nbsp;scale&nbsp;factor&nbsp;&nbsp;=&nbsp;1.000000<br>&nbsp;&nbsp;&nbsp;&nbsp;Elevation&nbsp;offset&nbsp;=&nbsp;0.000&nbsp;deg&nbsp;(raw&nbsp;0)<br>&nbsp;&nbsp;&nbsp;&nbsp;Detector&nbsp;current&nbsp;=&nbsp;300.000&nbsp;uA&nbsp;(Desired&nbsp;value)<br>&nbsp;&nbsp;&nbsp;&nbsp;Offset&nbsp;current&nbsp;&nbsp;&nbsp;=&nbsp;196.896&nbsp;uA&nbsp;(from&nbsp;DAC1&nbsp;through&nbsp;8.2k)<br>&nbsp;&nbsp;&nbsp;&nbsp;LED&nbsp;current&nbsp;now&nbsp;&nbsp;=&nbsp;16.108&nbsp;mA<br>&nbsp;&nbsp;&nbsp;&nbsp;Det&nbsp;current&nbsp;now&nbsp;&nbsp;=&nbsp;289.339&nbsp;uA<br>&nbsp;&nbsp;&nbsp;&nbsp;Ratio&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;0.036&nbsp;(normal&nbsp;0.042)<br>S--></td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Module Time:              </td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;">1.394947</td></tr>
+<tr><td class='separator' style="background-color:#000000;" colspan = '2'></td></tr>
+<tr><td colspan='2' style="border-color:#000000;background-color:#00C4C4;">V70_Inspection_Moving_Motor</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Status:                   </td>
+<td class='value' style="border-color:#000000;background-color:#00FFCC;">Done</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">V70 Write [In]:</td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;">el&nbsp;det&nbsp;300</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Dialog Response Text [Out]:</td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;">el&nbsp;det&nbsp;300<br>Variable&nbsp;Offset,&nbsp;fixed&nbsp;LED&nbsp;current&nbsp;method,&nbsp;Not&nbsp;used.<br>&nbsp;&nbsp;&nbsp;&nbsp;El&nbsp;scale&nbsp;factor&nbsp;=&nbsp;1.000000<br>&nbsp;&nbsp;&nbsp;&nbsp;EL&nbsp;offset&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;0.000&nbsp;deg&nbsp;(raw&nbsp;0)<br>&nbsp;&nbsp;&nbsp;&nbsp;LED&nbsp;cur&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;8.000&nbsp;mA<br>Variable&nbsp;LED&nbsp;current,&nbsp;fixed&nbsp;offset&nbsp;method,&nbsp;***&nbsp;Active&nbsp;***<br>&nbsp;&nbsp;&nbsp;&nbsp;El&nbsp;scale&nbsp;factor&nbsp;&nbsp;=&nbsp;1.000000<br>&nbsp;&nbsp;&nbsp;&nbsp;Elevation&nbsp;offset&nbsp;=&nbsp;0.000&nbsp;deg&nbsp;(raw&nbsp;0)<br>&nbsp;&nbsp;&nbsp;&nbsp;Detector&nbsp;current&nbsp;=&nbsp;300.000&nbsp;uA&nbsp;(Desired&nbsp;value)<br>&nbsp;&nbsp;&nbsp;&nbsp;Offset&nbsp;current&nbsp;&nbsp;&nbsp;=&nbsp;196.896&nbsp;uA&nbsp;(from&nbsp;DAC1&nbsp;through&nbsp;8.2k)<br>&nbsp;&nbsp;&nbsp;&nbsp;LED&nbsp;current&nbsp;now&nbsp;&nbsp;=&nbsp;16.618&nbsp;mA<br>&nbsp;&nbsp;&nbsp;&nbsp;Det&nbsp;current&nbsp;now&nbsp;&nbsp;=&nbsp;299.889&nbsp;uA<br>&nbsp;&nbsp;&nbsp;&nbsp;Ratio&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;0.036&nbsp;(normal&nbsp;0.042)<br>S--></td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Module Time:              </td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;">1.3543912</td></tr>
+<tr><td class='separator' style="background-color:#000000;" colspan = '2'></td></tr>
+<tr><td colspan='2' style="border-color:#000000;background-color:#00C4C4;">V70_Inspection_Moving_Motor</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Status:                   </td>
+<td class='value' style="border-color:#000000;background-color:#00FFCC;">Done</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">V70 Write [In]:</td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;">el&nbsp;scan&nbsp;fov&nbsp;30&nbsp;0&nbsp;tri&nbsp;freq&nbsp;1&nbsp;</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Dialog Response Text [Out]:</td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;">el&nbsp;scan&nbsp;fov&nbsp;30&nbsp;0&nbsp;tri&nbsp;freq&nbsp;1&nbsp;<br>Scan&nbsp;settings:&nbsp;(scan&nbsp;controlled&nbsp;by&nbsp;Hydra,&nbsp;so&nbsp;this&nbsp;FOV&nbsp;and&nbsp;mode&nbsp;not&nbsp;applicable)<br>&nbsp;&nbsp;&nbsp;&nbsp;1.000&nbsp;Hz<br>&nbsp;&nbsp;&nbsp;30.000&nbsp;deg&nbsp;FOV&nbsp;(raw&nbsp;100000)&nbsp;&nbsp;(raw&nbsp;-50000&nbsp;to&nbsp;50000)<br>&nbsp;&nbsp;&nbsp;&nbsp;0.000&nbsp;deg&nbsp;FOV&nbsp;offset&nbsp;(range&nbsp;-15.000&nbsp;to&nbsp;15.000&nbsp;deg)<br>&nbsp;&nbsp;&nbsp;Triangle&nbsp;mode&nbsp;&nbsp;&nbsp;(SNAP&nbsp;is&nbsp;up)&nbsp;&nbsp;(Triangle&nbsp;is&nbsp;50.00%&nbsp;increasing,&nbsp;rounded&nbsp;is&nbsp;0.00&nbsp;deg,&nbsp;f=1.000)<br>&nbsp;&nbsp;0:&nbsp;checkpoint=0&nbsp;&nbsp;frame&nbsp;index=1&nbsp;&nbsp;Source=Hydra<br>c3=&nbsp;&nbsp;&nbsp;&nbsp;0.000000e-3&nbsp;&nbsp;c2=&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000000e-3&nbsp;&nbsp;c1=&nbsp;0.000000&nbsp;&nbsp;c0=-0.314159&nbsp;&nbsp;x2=-0.314159&nbsp;v2=&nbsp;0.000000&nbsp;&nbsp;start=&nbsp;&nbsp;0.000&nbsp;lines&nbsp;&nbsp;dt=&nbsp;&nbsp;0.40&nbsp;lines<br>&nbsp;&nbsp;1:&nbsp;checkpoint=0&nbsp;&nbsp;frame&nbsp;index=1&nbsp;&nbsp;Source=Hydra<br>c3=&nbsp;&nbsp;&nbsp;-0.015253e-3&nbsp;&nbsp;c2=&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.404834e-3&nbsp;&nbsp;c1=&nbsp;0.000000&nbsp;&nbsp;c0=-0.314159&nbsp;&nbsp;x2=-0.279253&nbsp;v2=&nbsp;0.002793&nbsp;&nbsp;start=&nbsp;&nbsp;0.400&nbsp;lines&nbsp;&nbsp;dt=&nbsp;13.00&nbsp;lines<br>&nbsp;&nbsp;2:&nbsp;checkpoint=0&nbsp;&nbsp;frame&nbsp;index=1&nbsp;&nbsp;Source=Hydra<br>c3=&nbsp;&nbsp;&nbsp;-0.001616e-3&nbsp;&nbsp;c2=&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.029089e-3&nbsp;&nbsp;c1=&nbsp;0.002793&nbsp;&nbsp;c0=-0.279253&nbsp;&nbsp;x2=-0.244346&nbsp;v2=&nbsp;0.002793&nbsp;&nbsp;start=&nbsp;13.400&nbsp;lines&nbsp;&nbsp;dt=&nbsp;12.00&nbsp;lines<br>&nbsp;&nbsp;3:&nbsp;checkpoint=0&nbsp;&nbsp;frame&nbsp;index=1&nbsp;&nbsp;Source=Hydra<br>c3=&nbsp;&nbsp;&nbsp;&nbsp;0.000636e-3&nbsp;&nbsp;c2=&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-0.016524e-3&nbsp;&nbsp;c1=&nbsp;0.002793&nbsp;&nbsp;c0=-0.244346&nbsp;&nbsp;x2=-0.209440&nbsp;v2=&nbsp;0.002685&nbsp;&nbsp;start=&nbsp;25.400&nbsp;lines&nbsp;&nbsp;dt=&nbsp;13.00&nbsp;lines<br>&nbsp;&nbsp;4:&nbsp;checkpoint=0&nbsp;&nbsp;frame&nbsp;index=1&nbsp;&nbsp;Source=Hydra<br>c3=&nbsp;&nbsp;&nbsp;&nbsp;0.000636e-3&nbsp;&nbsp;c2=&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-0.008262e-3&nbsp;&nbsp;c1=&nbsp;0.002685&nbsp;&nbsp;c0=-0.209440&nbsp;&nbsp;x2=-0.174533&nbsp;v2=&nbsp;0.002793&nbsp;&nbsp;start=&nbsp;38.400&nbsp;lines&nbsp;&nbsp;dt=&nbsp;13.00&nbsp;lines<br>S--></td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Module Time:              </td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;">2.2176299</td></tr>
+<tr><td class='separator' style="background-color:#000000;" colspan = '2'></td></tr>
+<tr><td colspan='2' style="border-color:#000000;background-color:#00C4C4;">V70_Inspection_Moving_Motor</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Status:                   </td>
+<td class='value' style="border-color:#000000;background-color:#00FFCC;">Done</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">V70 Write [In]:</td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;">el&nbsp;mode&nbsp;4</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Dialog Response Text [Out]:</td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;">el&nbsp;mode&nbsp;4<br>Current&nbsp;mode=0&nbsp;&nbsp;OFF,&nbsp;requested&nbsp;mode=4&nbsp;&nbsp;TRAJECTORY&nbsp;*****&nbsp;Overridden&nbsp;by&nbsp;command&nbsp;*****<br>S--><br>DRV:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;22&nbsp;poly=&nbsp;xxxxx&nbsp;&nbsp;&nbsp;Chip&nbsp;not&nbsp;enabled<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;galvo=&nbsp;00000&nbsp;00000&nbsp;00000&nbsp;00000&nbsp;00000&nbsp;00040&nbsp;000ff&nbsp;000ff&nbsp;000ff&nbsp;00099<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;9=&nbsp;00099&nbsp;00099&nbsp;0002f&nbsp;00061&nbsp;00000&nbsp;0002a&nbsp;0007f&nbsp;00000<br><br>DRV:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;23&nbsp;poly=&nbsp;xxxxx&nbsp;&nbsp;&nbsp;Chip&nbsp;not&nbsp;enabled<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;galvo=&nbsp;00000&nbsp;00000&nbsp;00000&nbsp;00000&nbsp;00070&nbsp;00040&nbsp;000ff&nbsp;000ff&nbsp;000ff&nbsp;00099<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;9=&nbsp;00099&nbsp;00099&nbsp;0002f&nbsp;00061&nbsp;00000&nbsp;0002a&nbsp;0007f&nbsp;00000<br>S-->Low=398976,&nbsp;High=397713,&nbsp;diff=1263,&nbsp;diffAllowed=39897<br>S--></td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Module Time:              </td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;">1.2167417</td></tr>
+<tr><td class='separator' style="background-color:#000000;" colspan = '2'></td></tr>
+<tr><td colspan='2' style="border-color:#000000;background-color:#00C4C4;">Verify_LATM_motor_Scans_Smoothly</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Status:                   </td>
+<td class='value' style="border-color:#000000;background-color:#00FF00;">Passed</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Button Index:</td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;"><span style='white-space:nowrap;'>1</span></td></tr>
+</tbody></table><br>
+<h5 style="white-space:nowrap;">End Sequence: Motor performance</h5>
+</div>
+<table style="border-color:#000000;"><tbody>
+<tr><td colspan='2' style="border-color:#000000;background-color:#00C4C4;">EL pos (scan fov 0 0)</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Status:                   </td>
+<td class='value' style="border-color:#000000;background-color:#00FF00;">Passed</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Module Time:              </td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;">6.7012191</td></tr>
+</tbody></table><br>
+<div>
+<h5 style="white-space:nowrap;">Begin Sequence: EL pos (scan fov 0 0)
+<br>(C:\Auto_LATM_tester\MasterSequence.seq)<br></h5>
+<table style="border-color:#000000;"><tbody>
+<tr><td colspan='2' style="border-color:#000000;background-color:#00C4C4;">V70_el scan fov 0 0</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Status:                   </td>
+<td class='value' style="border-color:#000000;background-color:#00FFCC;">Done</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">V70 Write [In]:</td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;">el&nbsp;scan&nbsp;fov&nbsp;0&nbsp;0</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Dialog Response Text [Out]:</td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;">el&nbsp;scan&nbsp;fov&nbsp;0&nbsp;0<br>Scan&nbsp;settings:&nbsp;(scan&nbsp;controlled&nbsp;by&nbsp;System&nbsp;SAM)<br>&nbsp;&nbsp;&nbsp;&nbsp;1.000&nbsp;Hz<br>&nbsp;&nbsp;&nbsp;&nbsp;0.000&nbsp;deg&nbsp;FOV&nbsp;(raw&nbsp;0)&nbsp;&nbsp;(raw&nbsp;0&nbsp;to&nbsp;0)<br>&nbsp;&nbsp;&nbsp;&nbsp;0.000&nbsp;deg&nbsp;FOV&nbsp;offset&nbsp;(range&nbsp;&nbsp;0.000&nbsp;to&nbsp;&nbsp;0.000&nbsp;deg)<br>&nbsp;&nbsp;&nbsp;Triangle&nbsp;mode&nbsp;&nbsp;&nbsp;(SNAP&nbsp;is&nbsp;up)&nbsp;&nbsp;(Triangle&nbsp;is&nbsp;50.00%&nbsp;increasing,&nbsp;rounded&nbsp;is&nbsp;0.00&nbsp;deg,&nbsp;f=1.000)<br>&nbsp;&nbsp;3:&nbsp;checkpoint=0&nbsp;&nbsp;frame&nbsp;index=1&nbsp;&nbsp;Source=Hydra<br>c3=&nbsp;&nbsp;&nbsp;&nbsp;0.000636e-3&nbsp;&nbsp;c2=&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-0.016524e-3&nbsp;&nbsp;c1=&nbsp;0.002793&nbsp;&nbsp;c0=-0.244346&nbsp;&nbsp;x2=-0.209440&nbsp;v2=&nbsp;0.002685&nbsp;&nbsp;start=&nbsp;25.400&nbsp;lines&nbsp;&nbsp;dt=&nbsp;13.00&nbsp;lines<br>&nbsp;&nbsp;4:&nbsp;checkpoint=0&nbsp;&nbsp;frame&nbsp;index=1&nbsp;&nbsp;Source=Hydra<br>c3=&nbsp;&nbsp;&nbsp;&nbsp;0.000636e-3&nbsp;&nbsp;c2=&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-0.008262e-3&nbsp;&nbsp;c1=&nbsp;0.002685&nbsp;&nbsp;c0=-0.209440&nbsp;&nbsp;x2=-0.174533&nbsp;v2=&nbsp;0.002793&nbsp;&nbsp;start=&nbsp;38.400&nbsp;lines&nbsp;&nbsp;dt=&nbsp;13.00&nbsp;lines<br>&nbsp;&nbsp;5:&nbsp;checkpoint=0&nbsp;&nbsp;frame&nbsp;index=1&nbsp;&nbsp;Source=V70<br>c3=&nbsp;&nbsp;&nbsp;&nbsp;0.000000e-3&nbsp;&nbsp;c2=&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000000e-3&nbsp;&nbsp;c1=-0.003272&nbsp;&nbsp;c0=&nbsp;0.261799&nbsp;&nbsp;x2=-0.261799&nbsp;v2=-0.003272&nbsp;&nbsp;start=&nbsp;&nbsp;0.000&nbsp;lines&nbsp;&nbsp;dt=160.00&nbsp;lines<br>&nbsp;&nbsp;6:&nbsp;checkpoint=1&nbsp;&nbsp;frame&nbsp;index=1&nbsp;&nbsp;Source=V70<br>c3=&nbsp;&nbsp;&nbsp;&nbsp;0.000000e-3&nbsp;&nbsp;c2=&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000000e-3&nbsp;&nbsp;c1=&nbsp;0.003272&nbsp;&nbsp;c0=-0.261799&nbsp;&nbsp;x2=&nbsp;0.261799&nbsp;v2=&nbsp;0.003272&nbsp;&nbsp;start=160.000&nbsp;lines&nbsp;&nbsp;dt=160.00&nbsp;lines<br>&nbsp;&nbsp;7:&nbsp;checkpoint=0&nbsp;&nbsp;frame&nbsp;index=2&nbsp;&nbsp;Source=V70<br>c3=&nbsp;&nbsp;&nbsp;&nbsp;0.000000e-3&nbsp;&nbsp;c2=&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000000e-3&nbsp;&nbsp;c1=-0.003272&nbsp;&nbsp;c0=&nbsp;0.261799&nbsp;&nbsp;x2=-0.261799&nbsp;v2=-0.003272&nbsp;&nbsp;start=&nbsp;&nbsp;0.000&nbsp;lines&nbsp;&nbsp;dt=160.00&nbsp;lines<br>&nbsp;&nbsp;8:&nbsp;checkpoint=1&nbsp;&nbsp;frame&nbsp;index=2&nbsp;&nbsp;Source=V70<br>c3=&nbsp;&nbsp;&nbsp;&nbsp;0.000000e-3&nbsp;&nbsp;c2=&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000000e-3&nbsp;&nbsp;c1=&nbsp;0.003272&nbsp;&nbsp;c0=-0.261799&nbsp;&nbsp;x2=&nbsp;0.261799&nbsp;v2=&nbsp;0.003272&nbsp;&nbsp;start=160.000&nbsp;lines&nbsp;&nbsp;dt=160.00&nbsp;lines<br>&nbsp;&nbsp;9:&nbsp;checkpoint=0&nbsp;&nbsp;frame&nbsp;index=3&nbsp;&nbsp;Source=V70<br>c3=&nbsp;&nbsp;&nbsp;&nbsp;0.000000e-3&nbsp;&nbsp;c2=&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000000e-3&nbsp;&nbsp;c1=-0.003272&nbsp;&nbsp;c0=&nbsp;0.261799&nbsp;&nbsp;x2=-0.261799&nbsp;v2=-0.003272&nbsp;&nbsp;start=&nbsp;&nbsp;0.000&nbsp;lines&nbsp;&nbsp;dt=160.00&nbsp;lines<br>&nbsp;10:&nbsp;checkpoint=1&nbsp;&nbsp;frame&nbsp;index=3&nbsp;&nbsp;Source=V70<br>c3=&nbsp;&nbsp;&nbsp;&nbsp;0.000000e-3&nbsp;&nbsp;c2=&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000000e-3&nbsp;&nbsp;c1=&nbsp;0.003272&nbsp;&nbsp;c0=-0.261799&nbsp;&nbsp;x2=&nbsp;0.261799&nbsp;v2=&nbsp;0.003272&nbsp;&nbsp;start=160.000&nbsp;lines&nbsp;&nbsp;dt=160.00&nbsp;lines<br>&nbsp;11:&nbsp;checkpoint=0&nbsp;&nbsp;frame&nbsp;index=4&nbsp;&nbsp;Source=V70<br>c3=&nbsp;&nbsp;&nbsp;&nbsp;0.000000e-3&nbsp;&nbsp;c2=&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000000e-3&nbsp;&nbsp;c1=-0.003272&nbsp;&nbsp;c0=&nbsp;0.261799&nbsp;&nbsp;x2=-0.261799&nbsp;v2=-0.003272&nbsp;&nbsp;start=&nbsp;&nbsp;0.000&nbsp;lines&nbsp;&nbsp;dt=160.00&nbsp;lines<br>&nbsp;12:&nbsp;checkpoint=1&nbsp;&nbsp;frame&nbsp;index=4&nbsp;&nbsp;Source=V70<br>c3=&nbsp;&nbsp;&nbsp;&nbsp;0.000000e-3&nbsp;&nbsp;c2=&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000000e-3&nbsp;&nbsp;c1=&nbsp;0.003272&nbsp;&nbsp;c0=-0.261799&nbsp;&nbsp;x2=&nbsp;0.261799&nbsp;v2=&nbsp;0.003272&nbsp;&nbsp;start=160.000&nbsp;lines&nbsp;&nbsp;dt=160.00&nbsp;lines<br>S--></td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Module Time:              </td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;">2.2232673</td></tr>
+<tr><td class='separator' style="background-color:#000000;" colspan = '2'></td></tr>
+<tr><td colspan='2' style="border-color:#000000;background-color:#00C4C4;">Wait</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Status:                   </td>
+<td class='value' style="border-color:#000000;background-color:#00FFCC;">Done</td></tr>
+<tr><td class='separator' style="background-color:#000000;" colspan = '2'></td></tr>
+<tr><td colspan='2' style="border-color:#000000;background-color:#00C4C4;">V70_Read_angle</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Status:                   </td>
+<td class='value' style="border-color:#000000;background-color:#00FFCC;">Done</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Dialog Response Text [Out]:</td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;">el&nbsp;info2&nbsp;1<br>Variable&nbsp;Offset,&nbsp;fixed&nbsp;LED&nbsp;current&nbsp;method,&nbsp;Not&nbsp;used.<br>&nbsp;&nbsp;&nbsp;&nbsp;El&nbsp;scale&nbsp;factor&nbsp;=&nbsp;1.000000<br>&nbsp;&nbsp;&nbsp;&nbsp;EL&nbsp;offset&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;0.000&nbsp;deg&nbsp;(raw&nbsp;0)<br>&nbsp;&nbsp;&nbsp;&nbsp;LED&nbsp;cur&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;8.000&nbsp;mA<br>Variable&nbsp;LED&nbsp;current,&nbsp;fixed&nbsp;offset&nbsp;method,&nbsp;***&nbsp;Active&nbsp;***<br>&nbsp;&nbsp;&nbsp;&nbsp;El&nbsp;scale&nbsp;factor&nbsp;&nbsp;=&nbsp;1.000000<br>&nbsp;&nbsp;&nbsp;&nbsp;Elevation&nbsp;offset&nbsp;=&nbsp;0.000&nbsp;deg&nbsp;(raw&nbsp;0)<br>&nbsp;&nbsp;&nbsp;&nbsp;Detector&nbsp;current&nbsp;=&nbsp;300.000&nbsp;uA&nbsp;(Desired&nbsp;value)<br>&nbsp;&nbsp;&nbsp;&nbsp;Offset&nbsp;current&nbsp;&nbsp;&nbsp;=&nbsp;196.896&nbsp;uA&nbsp;(from&nbsp;DAC1&nbsp;through&nbsp;8.2k)<br>&nbsp;&nbsp;&nbsp;&nbsp;LED&nbsp;current&nbsp;now&nbsp;&nbsp;=&nbsp;16.634&nbsp;mA<br>&nbsp;&nbsp;&nbsp;&nbsp;Det&nbsp;current&nbsp;now&nbsp;&nbsp;=&nbsp;299.951&nbsp;uA<br>&nbsp;&nbsp;&nbsp;&nbsp;Ratio&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;0.036&nbsp;(normal&nbsp;0.042)<br>Elevation&nbsp;motor&nbsp;dead&nbsp;time&nbsp;=&nbsp;8&nbsp;clocks,&nbsp;53.33&nbsp;ns<br>T(s)=22.5&nbsp;EL:&nbsp;pos=&nbsp;&nbsp;0.0009&nbsp;Deg&nbsp;avgErr=0.0000&nbsp;Deg&nbsp;SYNC=ENABLED&nbsp;PhaseErr(us)=&nbsp;3.946&nbsp;P=0.003469&nbsp;W&nbsp;I=0.052872&nbsp;A&nbsp;a=&nbsp;&nbsp;&nbsp;&nbsp;25&nbsp;b=&nbsp;&nbsp;&nbsp;&nbsp;22&nbsp;Ave=&nbsp;&nbsp;&nbsp;&nbsp;23.5&nbsp;agc=16.63&nbsp;mA&nbsp;LED=16.67&nbsp;mA,&nbsp;oset=196.896&nbsp;uA&nbsp;PPM=-8.00&nbsp;FAULTn=1&nbsp;DrvEn=1&nbsp;T=&nbsp;22.3&nbsp;C&nbsp;H=&nbsp;21.0&nbsp;C,&nbsp;55.4%<br>S--></td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Module Time:              </td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;">1.4536825</td></tr>
+<tr><td class='separator' style="background-color:#000000;" colspan = '2'></td></tr>
+<tr><td colspan='2' style="border-color:#000000;background-color:#00C4C4;">Check_Angle EL: pos</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Status:                   </td>
+<td class='value' style="border-color:#000000;background-color:#00FFCC;">Done</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Mirror Angle [Out]:</td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;"><span style='white-space:nowrap;'>0.0009</span></td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Module Time:              </td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;">0.0015206</td></tr>
+</tbody></table><br>
+<h5 style="white-space:nowrap;">End Sequence: EL pos (scan fov 0 0)</h5>
+</div>
+<table style="border-color:#000000;"><tbody>
+<tr><td colspan='2' style="border-color:#000000;background-color:#00C4C4;">Set Manual Angle</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Status:                   </td>
+<td class='value' style="border-color:#000000;background-color:#00FF00;">Passed</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Module Time:              </td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;">7.1063197</td></tr>
+</tbody></table><br>
+<div>
+<h5 style="white-space:nowrap;">Begin Sequence: Set Manual Angle
+<br>(C:\Auto_LATM_tester\MasterSequence.seq)<br></h5>
+<table style="border-color:#000000;"><tbody>
+<tr><td colspan='2' style="border-color:#000000;background-color:#00C4C4;">V70_el_mode_off</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Status:                   </td>
+<td class='value' style="border-color:#000000;background-color:#00FFCC;">Done</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Module Time:              </td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;">0.8382664</td></tr>
+<tr><td class='separator' style="background-color:#000000;" colspan = '2'></td></tr>
+<tr><td colspan='2' style="border-color:#000000;background-color:#00C4C4;">Set_Angle</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Status:                   </td>
+<td class='value' style="border-color:#000000;background-color:#00FFCC;">Done</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Button Index:</td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;"><span style='white-space:nowrap;'>1</span></td></tr>
+</tbody></table><br>
+<h5 style="white-space:nowrap;">End Sequence: Set Manual Angle</h5>
+</div>
+<table style="border-color:#000000;"><tbody>
+<tr><td colspan='2' style="border-color:#000000;background-color:#00C4C4;">Test polarity check</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Status:                   </td>
+<td class='value' style="border-color:#000000;background-color:#00FF00;">Passed</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Module Time:              </td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;">3.7201536</td></tr>
+</tbody></table><br>
+<div>
+<h5 style="white-space:nowrap;">Begin Sequence: Test polarity check
+<br>(C:\Auto_LATM_tester\MasterSequence.seq)<br></h5>
+<table style="border-color:#000000;"><tbody>
+<tr><td colspan='2' style="border-color:#000000;background-color:#00C4C4;">Hydra_Read_Polarity</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Status:                   </td>
+<td class='value' style="border-color:#000000;background-color:#00FFCC;">Done</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Dialog Response Text [Out]:</td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;">deb&nbsp;can-client&nbsp;sys<br><br>*****&nbsp;CAN&nbsp;Client&nbsp;started,&nbsp;hit&nbsp;<CTRL-D>&nbsp;or&nbsp;type&nbsp;'EXIT'/'exit'&nbsp;to&nbsp;exit&nbsp;*****<br>F<br>WARNING:&nbsp;Failed&nbsp;to&nbsp;read&nbsp;elevation&nbsp;NVM&nbsp;params&nbsp;from&nbsp;EEPROM<br>Checksum&nbsp;mismatch:&nbsp;calculated&nbsp;0xFFFFFFF1,&nbsp;read&nbsp;0xFFFFFFFF<br>base-board&nbsp;motor&nbsp;driver&nbsp;test&nbsp;program.<br>Built&nbsp;Feb&nbsp;18&nbsp;2022&nbsp;&nbsp;22:32:42<br>git&nbsp;hash=bca0dc30&nbsp;on&nbsp;2022-02-08&nbsp;19:38:07&nbsp;+0000<br>git&nbsp;describe=luminar-0.3.0-rc1-0-gbca0dc3000d4<br>Processor&nbsp;frequency&nbsp;&nbsp;=&nbsp;300&nbsp;MHz<br>Main&nbsp;clock&nbsp;frequency&nbsp;=&nbsp;&nbsp;12&nbsp;MHz<br>MCK&nbsp;clock&nbsp;frequency&nbsp;&nbsp;=&nbsp;150&nbsp;MHz<br>CHIPID_CIDR=0xa1320c01&nbsp;&nbsp;&nbsp;CHIPID_EXID=0x00000002&nbsp;&nbsp;devtype=2=SystemV70<br>Alpha&nbsp;revision&nbsp;=&nbsp;266-002<br>===&nbsp;FPGA&nbsp;power&nbsp;on&nbsp;sequence.&nbsp;&nbsp;Hit&nbsp;'q'&nbsp;to&nbsp;abort&nbsp;===<br>&nbsp;Enable:&nbsp;FPGA_1V0:.OK,&nbsp;FPGA_1V8:.OK,&nbsp;FPGA_VCCO:.OK&nbsp;&nbsp;Done!<br>Checksum&nbsp;mismatch:&nbsp;calculated&nbsp;0xFFFFFFF1,&nbsp;read&nbsp;0xFFFFFFFF<br>Temperature:&nbsp;20.6&nbsp;degC<br>&nbsp;&nbsp;&nbsp;Hum&nbsp;temp:&nbsp;20.7&nbsp;degC<br>&nbsp;&nbsp;&nbsp;Humidity:&nbsp;55.9&nbsp;%<br>Temperature:&nbsp;20.6&nbsp;degC<br>&nbsp;&nbsp;&nbsp;Hum&nbsp;temp:&nbsp;20.7&nbsp;degC<br>&nbsp;&nbsp;&nbsp;Humidity:&nbsp;55.9&nbsp;%<br>Temperature:&nbsp;20.6&nbsp;degC<br>&nbsp;&nbsp;&nbsp;Hum&nbsp;temp:&nbsp;20.7&nbsp;degC<br>&nbsp;&nbsp;&nbsp;Humidity:&nbsp;55.9&nbsp;%<br><br>DRV:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;22&nbsp;poly=&nbsp;xxxxx&nbsp;&nbsp;&nbsp;Chip&nbsp;not&nbsp;enabled<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;galvo=&nbsp;00000&nbsp;00000&nbsp;00000&nbsp;00000&nbsp;00000&nbsp;00040&nbsp;000ff&nbsp;000ff&nbsp;000ff&nbsp;00099<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;9=&nbsp;00099&nbsp;00099&nbsp;0002f&nbsp;00061&nbsp;00000&nbsp;0002a&nbsp;0007f&nbsp;00000<br><br>DRV:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;23&nbsp;poly=&nbsp;xxxxx&nbsp;&nbsp;&nbsp;Chip&nbsp;not&nbsp;enabled<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;galvo=&nbsp;00000&nbsp;00000&nbsp;00000&nbsp;00000&nbsp;00070&nbsp;00040&nbsp;000ff&nbsp;000ff&nbsp;000ff&nbsp;00099<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;9=&nbsp;00099&nbsp;00099&nbsp;0002f&nbsp;00061&nbsp;00000&nbsp;0002a&nbsp;0007f&nbsp;00000<br>Low=398976,&nbsp;High=397713,&nbsp;diff=1263,&nbsp;diffAllowed=39897<br>Avg&nbsp;Motor&nbsp;I^2*R&nbsp;Loss=0.573756&nbsp;W,&nbsp;Avg&nbsp;Current=0.665617&nbsp;A<br>Avg&nbsp;Following&nbsp;Error=4.5408&nbsp;Deg<br>Polarity&nbsp;Detect&nbsp;Attempts=0<br>Resistance=1.229&nbsp;ohms<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;V1=0.124&nbsp;volts,&nbsp;Cur1=0.126&nbsp;amps<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;V2=0.251&nbsp;volts,&nbsp;Cur2=0.230&nbsp;amps<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ETC=3180&nbsp;uSec,&nbsp;Inductance=2447&nbsp;uH<br>Motor&nbsp;is&nbsp;UNKNOWN&nbsp;polarity,&nbsp;position&nbsp;is&nbsp;Inverted<br>Current&nbsp;Offsets:&nbsp;Low=&nbsp;-56&nbsp;(-0.01762&nbsp;A)&nbsp;&nbsp;High=31&nbsp;(0.00976&nbsp;A)<br>Measure&nbsp;positions:&nbsp;@start=&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0,&nbsp;~@tc1=-15171,&nbsp;@end1=-11938,&nbsp;~@tc2=-11901,&nbsp;@end2=&nbsp;65422<br>Holding&nbsp;position&nbsp;inverted,&nbsp;current&nbsp;limit=1.00&nbsp;...&nbsp;&nbsp;Hold&nbsp;failed,&nbsp;inrange&nbsp;=&nbsp;0<br>Holding&nbsp;position&nbsp;normal,&nbsp;current&nbsp;limit=1.00&nbsp;...&nbsp;&nbsp;Polarity&nbsp;=&nbsp;normal,&nbsp;inrange=273<br><br>DRV:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;51&nbsp;poly=&nbsp;xxxxx&nbsp;&nbsp;&nbsp;Chip&nbsp;not&nbsp;enabled<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;galvo=&nbsp;xxxxx&nbsp;&nbsp;&nbsp;Chip&nbsp;not&nbsp;enabled<br><br>****&nbsp;CAN&nbsp;UP&nbsp;*****<br>S0-></td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Module Time:              </td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;">3.6959913</td></tr>
+<tr><td class='separator' style="background-color:#000000;" colspan = '2'></td></tr>
+<tr><td colspan='2' style="border-color:#000000;background-color:#00C4C4;">Check_Polarity</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Status:                   </td>
+<td class='value' style="border-color:#000000;background-color:#00FF00;">Passed</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Measurement:</td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;"><span style='white-space:nowrap;'>1</span></td></tr>
+<tr><td class='label' colspan='2' style="border-color:#000000;background-color:#FFFFFF;">Limits:</td>
+</tr>
+
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">&nbsp;&nbsp;&nbsp;Low:</td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;"><span style='white-space:nowrap;'>1</span></td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Comparison Type:</td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;">EQ (==)</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Polarity [Out]:</td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;"><span style='white-space:nowrap;'>1</span></td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Ohms [Out]:</td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;"><span style='white-space:nowrap;'>1.229</span></td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Module Time:              </td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;">0.001229</td></tr>
+</tbody></table><br>
+<h5 style="white-space:nowrap;">End Sequence: Test polarity check</h5>
+</div>
+<table style="border-color:#000000;"><tbody>
+<tr><td colspan='2' style="border-color:#000000;background-color:#00C4C4;">EL pos (El mode off)</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Status:                   </td>
+<td class='value' style="border-color:#000000;background-color:#00FF00;">Passed</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Module Time:              </td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;">1.4825673</td></tr>
+</tbody></table><br>
+<div>
+<h5 style="white-space:nowrap;">Begin Sequence: EL pos (El mode off)
+<br>(C:\Auto_LATM_tester\MasterSequence.seq)<br></h5>
+<table style="border-color:#000000;"><tbody>
+<tr><td colspan='2' style="border-color:#000000;background-color:#00C4C4;">V70_Read_angle</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Status:                   </td>
+<td class='value' style="border-color:#000000;background-color:#00FFCC;">Done</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Dialog Response Text [Out]:</td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;">el&nbsp;info2&nbsp;1<br>Variable&nbsp;Offset,&nbsp;fixed&nbsp;LED&nbsp;current&nbsp;method,&nbsp;Not&nbsp;used.<br>&nbsp;&nbsp;&nbsp;&nbsp;El&nbsp;scale&nbsp;factor&nbsp;=&nbsp;1.000000<br>&nbsp;&nbsp;&nbsp;&nbsp;EL&nbsp;offset&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;0.000&nbsp;deg&nbsp;(raw&nbsp;0)<br>&nbsp;&nbsp;&nbsp;&nbsp;LED&nbsp;cur&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;8.000&nbsp;mA<br>Variable&nbsp;LED&nbsp;current,&nbsp;fixed&nbsp;offset&nbsp;method,&nbsp;***&nbsp;Active&nbsp;***<br>&nbsp;&nbsp;&nbsp;&nbsp;El&nbsp;scale&nbsp;factor&nbsp;&nbsp;=&nbsp;1.000000<br>&nbsp;&nbsp;&nbsp;&nbsp;Elevation&nbsp;offset&nbsp;=&nbsp;0.000&nbsp;deg&nbsp;(raw&nbsp;0)<br>&nbsp;&nbsp;&nbsp;&nbsp;Detector&nbsp;current&nbsp;=&nbsp;300.000&nbsp;uA&nbsp;(Desired&nbsp;value)<br>&nbsp;&nbsp;&nbsp;&nbsp;Offset&nbsp;current&nbsp;&nbsp;&nbsp;=&nbsp;196.896&nbsp;uA&nbsp;(from&nbsp;DAC1&nbsp;through&nbsp;8.2k)<br>&nbsp;&nbsp;&nbsp;&nbsp;LED&nbsp;current&nbsp;now&nbsp;&nbsp;=&nbsp;16.629&nbsp;mA<br>&nbsp;&nbsp;&nbsp;&nbsp;Det&nbsp;current&nbsp;now&nbsp;&nbsp;=&nbsp;300.073&nbsp;uA<br>&nbsp;&nbsp;&nbsp;&nbsp;Ratio&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;0.036&nbsp;(normal&nbsp;0.042)<br>Elevation&nbsp;motor&nbsp;dead&nbsp;time&nbsp;=&nbsp;8&nbsp;clocks,&nbsp;53.33&nbsp;ns<br>T(s)=34.8&nbsp;EL:&nbsp;pos=&nbsp;&nbsp;0.8328&nbsp;Deg&nbsp;avgErr=0.8325&nbsp;Deg&nbsp;SYNC=ENABLED&nbsp;PhaseErr(us)=-0.047&nbsp;P=0.632345&nbsp;W&nbsp;I=0.717230&nbsp;A&nbsp;a=&nbsp;&nbsp;1371&nbsp;b=&nbsp;-1406&nbsp;Ave=&nbsp;&nbsp;&nbsp;-17.5&nbsp;agc=16.63&nbsp;mA&nbsp;LED=16.64&nbsp;mA,&nbsp;oset=196.896&nbsp;uA&nbsp;PPM=-8.62&nbsp;FAULTn=1&nbsp;DrvEn=0&nbsp;T=&nbsp;23.2&nbsp;C&nbsp;H=&nbsp;21.3&nbsp;C,&nbsp;54.5%<br>S--></td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Module Time:              </td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;">1.4671322</td></tr>
+<tr><td class='separator' style="background-color:#000000;" colspan = '2'></td></tr>
+<tr><td colspan='2' style="border-color:#000000;background-color:#00C4C4;">Check_Angle EL: pos angle</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Status:                   </td>
+<td class='value' style="border-color:#000000;background-color:#00FFCC;">Done</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Mirror Angle [Out]:</td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;"><span style='white-space:nowrap;'>0.8328</span></td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Module Time:              </td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;">0.0013086</td></tr>
+</tbody></table><br>
+<h5 style="white-space:nowrap;">End Sequence: EL pos (El mode off)</h5>
+</div>
+<table style="border-color:#000000;"><tbody>
+<tr><td colspan='2' style="border-color:#000000;background-color:#00C4C4;">diff value between (Scan fov) and (El mode)</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Status:                   </td>
+<td class='value' style="border-color:#000000;background-color:#00FF00;">Passed</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Module Time:              </td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;">0.0137393</td></tr>
+</tbody></table><br>
+<div>
+<h5 style="white-space:nowrap;">Begin Sequence: diff value between (Scan fov) and (El mode)
+<br>(C:\Auto_LATM_tester\MasterSequence.seq)<br></h5>
+<table style="border-color:#000000;"><tbody>
+<tr><td colspan='2' style="border-color:#000000;background-color:#00C4C4;">diff value</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Status:                   </td>
+<td class='value' style="border-color:#000000;background-color:#00FFCC;">Done</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">EL_SCAN_FOV:</td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;"><span style='white-space:nowrap;'>0.0009</span></td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">EL_POS_ANGLE:</td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;"><span style='white-space:nowrap;'>0.8328</span></td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">FOV-ANGLE:</td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;"><span style='white-space:nowrap;'>-0.8319</span></td></tr>
+<tr><td class='separator' style="background-color:#000000;" colspan = '2'></td></tr>
+<tr><td colspan='2' style="border-color:#000000;background-color:#00C4C4;">Differance_Mirror_Angle</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Status:                   </td>
+<td class='value' style="border-color:#000000;background-color:#00FF00;">Passed</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Measurement:</td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;"><span style='white-space:nowrap;'>-0.8319</span></td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Units:</td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;">degree</td></tr>
+<tr><td class='label' colspan='2' style="border-color:#000000;background-color:#FFFFFF;">Limits:</td>
+</tr>
+
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">&nbsp;&nbsp;&nbsp;Low:</td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;"><span style='white-space:nowrap;'>-4</span></td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">&nbsp;&nbsp;&nbsp;High:</td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;"><span style='white-space:nowrap;'>4</span></td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Comparison Type:</td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;">GELE (>= <=)</td></tr>
+</tbody></table><br>
+<h5 style="white-space:nowrap;">End Sequence: diff value between (Scan fov) and (El mode)</h5>
+</div>
+<table style="border-color:#000000;"><tbody>
+<tr><td colspan='2' style="border-color:#000000;background-color:#ADD8E6;">Cleanup</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Status:                   </td>
+<td class='value' style="border-color:#000000;background-color:#00FF00;">Passed</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Module Time:              </td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;">1.9322016</td></tr>
+</tbody></table><br>
+<div>
+<h5 style="white-space:nowrap;">Begin Sequence: Cleanup
+<br>(C:\Auto_LATM_tester\MasterSequence.seq)<br></h5>
+<table style="border-color:#000000;"><tbody>
+<tr><td colspan='2' style="border-color:#000000;background-color:#00C4C4;">V70_el_mode_off</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Status:                   </td>
+<td class='value' style="border-color:#000000;background-color:#00FFCC;">Done</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Module Time:              </td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;">0.847893</td></tr>
+<tr><td class='separator' style="background-color:#000000;" colspan = '2'></td></tr>
+<tr><td colspan='2' style="border-color:#000000;background-color:#00C4C4;">Wait</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Status:                   </td>
+<td class='value' style="border-color:#000000;background-color:#00FFCC;">Done</td></tr>
+<tr><td class='separator' style="background-color:#000000;" colspan = '2'></td></tr>
+<tr><td colspan='2' style="border-color:#000000;background-color:#00C4C4;">PSU_OFF</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Status:                   </td>
+<td class='value' style="border-color:#000000;background-color:#00FFCC;">Done</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Module Time:              </td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;">0.0044236</td></tr>
+<tr><td class='separator' style="background-color:#000000;" colspan = '2'></td></tr>
+<tr><td colspan='2' style="border-color:#000000;background-color:#00C4C4;">PSU_Protection</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Status:                   </td>
+<td class='value' style="border-color:#000000;background-color:#00FFCC;">Done</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Module Time:              </td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;">0.0039333</td></tr>
+<tr><td class='separator' style="background-color:#000000;" colspan = '2'></td></tr>
+<tr><td colspan='2' style="border-color:#000000;background-color:#00C4C4;">StopTime</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Status:                   </td>
+<td class='value' style="border-color:#000000;background-color:#00FF00;">Passed</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Module Time:              </td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;">0.0188583</td></tr>
+</tbody></table><br>
+<div>
+<h5 style="white-space:nowrap;">Begin Sequence: StopTime
+<br>(C:\Auto_LATM_tester\MasterSequence.seq)<br></h5>
+<table style="border-color:#000000;"><tbody>
+<tr><td colspan='2' style="border-color:#000000;background-color:#FF8000;">GetTime</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Status:                   </td>
+<td class='value' style="border-color:#000000;background-color:#00FFCC;">Done</td></tr>
+<tr><td class='separator' style="background-color:#000000;" colspan = '2'></td></tr>
+<tr><td colspan='2' style="border-color:#000000;background-color:#FF8000;">GetDate</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Status:                   </td>
+<td class='value' style="border-color:#000000;background-color:#00FFCC;">Done</td></tr>
+<tr><td class='separator' style="background-color:#000000;" colspan = '2'></td></tr>
+<tr><td colspan='2' style="border-color:#000000;background-color:#00C4C4;">FormatDate&amp;Time_Start</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Status:                   </td>
+<td class='value' style="border-color:#000000;background-color:#00FFCC;">Done</td></tr>
+</tbody></table><br>
+<h5 style="white-space:nowrap;">End Sequence: StopTime</h5>
+</div>
+<table style="border-color:#000000;"><tbody>
+<tr><td colspan='2' style="border-color:#000000;background-color:#00C4C4;">If</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Status:                   </td>
+<td class='value' style="border-color:#000000;background-color:#FFFF00;">Skipped</td></tr>
+</tbody></table><br>
+<div>
+<table style="border-color:#000000;"><tbody>
+<tr><td colspan='2' style="border-color:#000000;background-color:#00C4C4;">FITs</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Status:                   </td>
+<td class='value' style="border-color:#000000;background-color:#FFFF00;">Skipped</td></tr>
+</tbody></table><br>
+</div>
+<table style="border-color:#000000;"><tbody>
+<tr><td colspan='2' style="border-color:#000000;background-color:#00C4C4;">End</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Status:                   </td>
+<td class='value' style="border-color:#000000;background-color:#FFFF00;">Skipped</td></tr>
+<tr><td class='separator' style="background-color:#000000;" colspan = '2'></td></tr>
+<tr><td colspan='2' style="border-color:#000000;background-color:#00C4C4;">CSV_Valuse</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Status:                   </td>
+<td class='value' style="border-color:#000000;background-color:#00FFCC;">Done</td></tr>
+<tr><td class='separator' style="background-color:#000000;" colspan = '2'></td></tr>
+<tr><td colspan='2' style="border-color:#000000;background-color:#00C4C4;">Generate CSV</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Status:                   </td>
+<td class='value' style="border-color:#000000;background-color:#00FFCC;">Done</td></tr>
+<tr><td class='label' style="border-color:#000000;background-color:#FFFFFF;">Module Time:              </td>
+<td class='value' style="border-color:#000000;background-color:#32FFFF;">0.0077324</td></tr>
+</tbody></table><br>
+<h5 style="white-space:nowrap;">End Sequence: Cleanup</h5>
+</div>
+<h5 style="white-space:nowrap;">End Sequence: MainSequence</h5>
+</div>
+<h3>End UUT Report</h3> <hr style="color:#0000E0;background-color:#0000E0;border-width:0;width:90%;height:5px;">
+</body>
+</html>

@@ -1,0 +1,4 @@
+Isn't "Test polarity check" be PASS/FAIL?
+
+
+Log("LATM PV","LA050","600354012C2415C2009473","EN;SN LATM;SN LATM motor;Motor performance;EL pos (scan fov 0 0);EL pos (El mode off);diff value between (Scan fov) and (El mode);Test polarity check;LATM test result;Result","520463;600354012C2415C2009473;NA;WORKING CORRECTLY;0.0003;-1.5201;1.5204;1;PASS;PASS")
